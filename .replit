@@ -66,3 +66,4 @@ start = "ccls"
 
 [nix.channel]
 channel = "stable-22_05"
+ 
