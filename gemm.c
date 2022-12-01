@@ -1,5 +1,5 @@
-//Created by Vrindavan Sanap
-// All rights reserved
+// Created by Vrindavan Sanap
+//  All rights reserved
 
 #include <inttypes.h>
 #include <stdint.h>
@@ -14,8 +14,9 @@ float A[N][N];
 float B[N][N];
 float C[N][N];
 
-// __m256 *An = (__m256 *)A;
-// __m256 *Bn = (__m256 *)B;
+__m256 *An = (__m256 *)A;
+__m256 *Bn = (__m256 *)B;
+__m256 *Cn = (__m256 *)C;
 
 double nanos(void)
 {
@@ -57,7 +58,7 @@ int main()
         }
         double flops = N * N * 2.0 * N;
         double et = nanos();
-        double s = ((et - st) * 1e-9); // * 1e-12;
+        double s = ((et - st) * 1e-9);
         printf(" %f GFLOP/s \n", (flops / s) * 1e-9);
     }
     return 0;
