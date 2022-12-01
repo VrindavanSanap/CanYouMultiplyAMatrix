@@ -1,14 +1,22 @@
 //# created by Vrindavan Sanap
 // All rights reserved
+
 #include <inttypes.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <immintrin.h>
+#include <assert.h>
 #define N 1024
+
 float A[N][N];
 float B[N][N];
 float C[N][N];
+
+// __m256 *An = (__m256 *)A;
+// __m256 *Bn = (__m256 *)B;
+
 double nanos(void)
 {
     struct timespec ts;
@@ -21,23 +29,30 @@ double nanos(void)
     return 1000000000.0 * ts.tv_sec + ts.tv_nsec;
 }
 
+#define BLOCK 4
 int main()
 {
     printf("Running \n");
     for (int itr = 0; itr < 10; itr++)
     {
         double st = nanos();
-        for (int y = 0; y < N; y++)
+        for (int by = 0; by < N; by += BLOCK)
         {
-            for (int x = 0; x < N; x++)
+            for (int bx = 0; bx < N; bx += BLOCK)
             {
-                // printf("%d  %d \n", x, y);
-                float acc = 0;
-                for (int k = 0; k < N; k++)
+                for (int y = by; y < by + BLOCK; y++)
                 {
-                    acc += A[y][k] * B[x][k];
+                    for (int x = bx; x < bx + BLOCK; x++)
+                    {
+
+                        float acc = 0;
+                        for (int k = 0; k < N; k++)
+                        {
+                            acc += A[y][k] * B[x][k];
+                        }
+                        C[y][x] = acc;
+                    }
                 }
-                C[y][x] = acc;
             }
         }
         double flops = N * N * 2.0 * N;
