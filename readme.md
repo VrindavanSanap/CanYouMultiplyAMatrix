@@ -9,3 +9,4 @@ We are trying to implement the matrix multiplication algorithm in C thats good e
 We will be using various techniques like Blocks to optimise cache use and CPU intrinsics AVX instructions.
 
 Instruction Set for Intel CPUS can be found on https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html
+ 
