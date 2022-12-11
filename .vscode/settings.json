@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "corecrt.h": "c",
+        "vcruntime.h": "c",
+        "sal.h": "c",
+        "concurrencysal.h": "c",
+        "corecrt_wtime.h": "c",
+        "stdio.h": "c"
+    }
+}

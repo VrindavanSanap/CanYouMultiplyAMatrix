@@ -6,7 +6,7 @@ import art
 import numpy as np
 
 
-N = 1024
+N = 4096
 arr = []
 if __name__ == "__main__":
     art.tprint("GPU go brrrr")
