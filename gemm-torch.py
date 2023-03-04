@@ -9,6 +9,7 @@ N = 4096
 arr = []
 if __name__ == "__main__":
     art.tprint("GPU go brrrr")
+
     def matMul(N):
         # N*N matrix
         A = np.random.randn(N, N).astype(np.float32)
