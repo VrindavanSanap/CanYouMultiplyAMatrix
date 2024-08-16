@@ -1,43 +1,50 @@
-indent-width = 2
-preview = true
-target-version = "py38"
+name: Ruff Formatter
 
-lint.select = [
-  "F",  # Pyflakes
-  "W6",
-  "E71",
-  "E72",
-  "E112",   # no-indented-block
-  "E113",   # unexpected-indentation
-  # "E124",
-  "E203",   # whitespace-before-punctuation
-  "E272",   # multiple-spaces-before-keyword
-  "E303",   # too-many-blank-lines
-  "E304",   # blank-line-after-decorator
-  "E501",   # line-too-long
-  # "E502",
-  "E702",   # multiple-statements-on-one-line-semicolon
-  "E703",   # useless-semicolon
-  "E731",   # lambda-assignment
-  "W191",   # tab-indentation
-  "W291",   # trailing-whitespace
-  "W293",   # blank-line-with-whitespace
-  "UP039",  # unnecessary-class-parentheses
-  "C416",   # unnecessary-comprehension
-  "RET506", # superfluous-else-raise
-  "RET507", # superfluous-else-continue
-  "A",      # builtin-variable-shadowing, builtin-argument-shadowing, builtin-attribute-shadowing
-  "SIM105", # suppressible-exception
-  "FURB110",# if-exp-instead-of-or-operator
-]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
-line-length = 150
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-exclude = [
-  "docs/",
-  "examples/",
-  "extra/",
-  "tinygrad/runtime/autogen",
-  "test/external/mlperf_resnet",
-  "test/external/mlperf_unet3d",
-]
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install Ruff and isort
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff isort
+
+      - name: Run Ruff format
+        run: |
+          ruff format 
+
+      - name: Run isort
+        run: |
+          isort .
+
+      - name: Configure Git
+        run: |
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@github.com'
+
+      - name: Commit changes
+        run: |
+          git add .
+          git commit -m 'Format code with Ruff and isort' || echo "No changes to commit"
+
+      - name: Push changes
+        run: |
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
