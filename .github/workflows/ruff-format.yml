@@ -1,5 +1,6 @@
 name: Ruff Formatter
 
+
 on:
   push:
     branches:
