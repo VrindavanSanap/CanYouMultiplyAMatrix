@@ -6,7 +6,7 @@
 import time
 
 import art
-import numpy as np
+import torch
 
 N = 4096
 arr = []
@@ -15,9 +15,9 @@ if __name__ == "__main__":
 
   def matMul(N):
     # N*N matrix
-    A = np.random.randn(N, N).astype(np.float32)
+    A = torch.randn(N, N, dtype=torch.float32)
     # N*N matrix
-    B = np.random.randn(N, N).astype(np.float32)
+    B = torch.randn(N, N, dtype=torch.float32)
     # flops=N^2 output cells with 2N compute each
     flops = N * N * 2 * N
 
@@ -34,6 +34,6 @@ if __name__ == "__main__":
     g_flops_per_sec = matMul(N)
     print(f"({i + 1}/10) ,{g_flops_per_sec:.2f} GFlops/s")
     g_flops_per_sec_arr.append(g_flops_per_sec)
-  g_flops_per_sec_arr = np.array(g_flops_per_sec_arr)
+  g_flops_per_sec_arr = torch.Tensor(g_flops_per_sec_arr)
   print(f"Mean: {g_flops_per_sec_arr.mean():.2f} GFlops/s")
   print(f"Std: {g_flops_per_sec_arr.std():.2f} GFlops/s")
